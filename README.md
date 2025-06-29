@@ -34,7 +34,12 @@ This server provides a seamless way for AI models to see and analyze images you'
    ```bash
    brew install pngpaste
    ```
-5. Add the following to your MCP configuration file:
+
+5. Add the server to your MCP configuration:
+```bash
+  claude mcp add -s user view_clipboard "npx" "tsx" "/path/to/pngpaste_mcp/server.ts"
+``` 
+Or, you can add the following to your MCP configuration file:
 
 ```json
 {
