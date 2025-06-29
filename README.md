@@ -24,30 +24,17 @@ This server provides a seamless way for AI models to see and analyze images you'
 1. Clone this repository
 2. Install dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
-3. Install pngpaste:
+3. Build the server:
+   ```bash
+   pnpm build
+   ```
+4. Install pngpaste:
    ```bash
    brew install pngpaste
    ```
-
-## Usage
-
-1. Build the server:
-   ```bash
-   npm run build
-   ```
-
-2. Run the server:
-   ```bash
-   npx fastmcp dev server.ts
-   ```
-
-3. Copy any image to your clipboard (Cmd+C, screenshot, etc.)
-
-4. Use the `getClipboardImage` tool through your MCP client to have the model analyze the image
-
-5. Add the following to your mcp configuration:
+5. Add the following to your MCP configuration file:
 
 ```json
 {
@@ -64,6 +51,13 @@ This server provides a seamless way for AI models to see and analyze images you'
 ...
 }
 ```
+
+
+## Usage
+
+1. Copy any image to your clipboard (Cmd+C, screenshot, etc.)
+
+2. Use the `getClipboardImage` tool through your MCP client to have the model analyze the image
 
 
 ## Available Tools
