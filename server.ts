@@ -1,32 +1,56 @@
 import { FastMCP } from "fastmcp";
 import { z } from "zod";
-import { readFileSync } from "fs";
-import { join } from "path";
-import { homedir } from "os";
+import { exec } from "child_process";
+import { promisify } from "util";
+
+const execAsync = promisify(exec);
 
 // Create the MCP server
 const server = new FastMCP({
-    name: "PNG Paste Server",
+    name: "Clipboard Image Server",
     version: "1.0.0",
-    instructions: `This server provides a tool to read and display the hooray.png image from the user's home directory.`,
+    instructions: `This server provides tools to capture and display images directly from the system clipboard using pngpaste.`,
 });
 
-// Add tool to read and display the hooray.png image
+// Check if pngpaste is available
+async function checkPngpasteAvailable(): Promise<boolean> {
+    try {
+        await execAsync('which pngpaste');
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+// Add tool to capture and display clipboard image
 server.addTool({
-    name: "getHoorayImage",
-    description: "Read and display the hooray.png image from the home directory",
+    name: "getClipboardImage",
+    description: "Capture and display the current image from the system clipboard",
     parameters: z.object({}),
     execute: async () => {
         try {
-            const imagePath = join(homedir(), "hooray.png");
-            const imageBuffer = readFileSync(imagePath);
-            const base64Image = imageBuffer.toString('base64');
+            // Check if pngpaste is available
+            const isPngpasteAvailable = await checkPngpasteAvailable();
+            if (!isPngpasteAvailable) {
+                return {
+                    content: [
+                        {
+                            type: "text",
+                            text: "Error: pngpaste is not installed. Please install it with: brew install pngpaste",
+                        },
+                    ],
+                };
+            }
+
+            // Use pngpaste to capture clipboard image to stdout and encode as base64
+            const { stdout } = await execAsync('pngpaste -', { encoding: 'buffer' });
+            const base64Image = stdout.toString('base64');
 
             return {
                 content: [
                     {
                         type: "text",
-                        text: "Here is the hooray.png image from your home directory:",
+                        text: "Here is the current image from your clipboard:",
                     },
                     {
                         type: "image",
@@ -40,7 +64,7 @@ server.addTool({
                 content: [
                     {
                         type: "text",
-                        text: `Error reading hooray.png: ${error.message}`,
+                        text: `Error capturing clipboard image: ${error.message}. Make sure you have an image copied to your clipboard.`,
                     },
                 ],
             };
@@ -85,7 +109,7 @@ const startConfig = transportType === "httpStream"
 
 server.start(startConfig).then(() => {
     // Server started successfully
-}).catch((_error) => {
+}).catch((_error: any) => {
     process.exit(1);
 });
 
