@@ -37,7 +37,7 @@ This server provides a seamless way for AI models to see and analyze images you'
 
 5. Add the server to your MCP configuration:
 ```bash
-  claude mcp add -s user view_clipboard "npx" "tsx" "/path/to/pngpaste_mcp/server.ts"
+  claude mcp add -s user view_clipboard "npx" "tsx" "/Users/ohadr/pngpaste_mcp/server.ts"
 ``` 
 Or, you can add the following to your MCP configuration file:
 
@@ -74,6 +74,8 @@ Or, you can add the following to your MCP configuration file:
 1. Take a screenshot (Cmd+Shift+4)
 2. Ask your AI assistant: "What do you see in my clipboard?"
 3. The model immediately receives and analyzes the screenshot
+
+![Example](example.png)
 
 ## Development
 
