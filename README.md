@@ -47,6 +47,25 @@ This server provides a seamless way for AI models to see and analyze images you'
 
 4. Use the `getClipboardImage` tool through your MCP client to have the model analyze the image
 
+5. Add the following to your mcp configuration:
+
+```json
+{
+...   
+"view_clipboard": {
+            "command": "npx",
+            "args": [
+                "tsx",
+                "/path/to/pngpaste_mcp/server.ts",
+
+            ],
+
+        }
+...
+}
+```
+
+
 ## Available Tools
 
 - **getClipboardImage**: Captures and displays the current image from your system clipboard
