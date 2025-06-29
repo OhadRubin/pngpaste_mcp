@@ -1,0 +1,32 @@
+{
+  "name": "pngpaste-mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsup",
+    "start": "node dist/server.js",
+    "dev": "tsup --watch"
+  },
+  "keywords": ["MCP", "PNG", "FastMCP"],
+  "author": "User",
+  "license": "MIT",
+  "description": "A simple MCP server that reads PNG images",
+  "dependencies": {
+    "fastmcp": "^1.0.0",
+    "zod": "^3.25.56"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "tsup": {
+    "entry": ["server.ts"],
+    "format": ["esm"],
+    "dts": true,
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true
+  }
+}
